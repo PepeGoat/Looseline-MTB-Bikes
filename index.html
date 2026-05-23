@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    html, body, #root { margin: 0; padding: 0; height: 100%; background: #0e0e0c; }
+    html, body, #root { margin: 0; padding: 0; height: 100%; background: #f4efe6; }
     * { box-sizing: border-box; }
     input { font-family: inherit; color: inherit; }
     button { -webkit-tap-highlight-color: transparent; }
@@ -60,7 +60,7 @@
       const App = window.MC && window.MC.App;
       if (!App) return null;
       return (
-        <window.LightCtx.Provider value={false}>
+        <window.LightCtx.Provider value={true}>
           <App />
         </window.LightCtx.Provider>
       );

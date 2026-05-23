@@ -14,7 +14,7 @@ function Stripe({ caption = 'PRODUCT SHOT', tone = 'dark', style, children }) {
   const palettes = {
     dark:  light ? ['#1a1a17', '#2a2a25'] : ['#1a1a17', '#26261f'],
     cream: light ? ['#e8e2d4', '#dbd5c5'] : ['#1f1f1a', '#2a2a23'],
-    lime:  light ? ['#c8e02f', '#b3ca28'] : ['#3a4710', '#42500e'],
+    lime:  light ? ['#c0f500', '#addc00'] : ['#3a4710', '#42500e'],
   };
   const [a, b] = palettes[tone];
   const fg = tone === 'lime' ? (light ? '#1a1a17' : '#0e0e0c')
@@ -125,12 +125,12 @@ const COLORS = {
   bg: '#0e0e0c',
   bgLight: '#f4efe6',
   ink: '#f5f2ec',
-  inkLight: '#0e0e0c',
+  inkLight: '#0a0a08',
   mute: '#7a7468',
-  muteLight: '#8a8475',
+  muteLight: '#6e6860',
   panel: '#16161310',
   panelLight: '#0e0e0c08',
-  lime: '#d9ff3a',
+  lime: '#c8ff00',
   cream: '#f5f2ec',
 };
 
