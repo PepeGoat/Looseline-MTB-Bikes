@@ -8,27 +8,27 @@
     const t = useTheme();
     return (
       <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', height: '100%' }}>
-        <div style={{ borderRight: `1px solid ${t.line}`, padding: '28px 24px', display: 'flex', flexDirection: 'column', gap: 24, overflow: 'auto' }}>
+        <div style={{ borderRight: `1px solid ${t.line}`, padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: 36, overflow: 'auto' }}>
           <div>
             <Idx n={1} style={{ color: t.mute }} />
-            <div style={{ fontFamily: 'Space Grotesk', fontSize: 13, marginTop: 6, color: t.mute, letterSpacing: 0.4 }}>
-              CURRENT TRANSMISSION
+            <div style={{ fontFamily: 'Space Grotesk', fontSize: 12, marginTop: 6, color: t.mute, letterSpacing: 0.8, textTransform: 'uppercase' }}>
+              Current Transmission
             </div>
-            <div style={{ fontFamily: 'Space Grotesk', fontWeight: 600, fontSize: 32, lineHeight: 1.05, marginTop: 12, letterSpacing: -0.6 }}>
+            <div style={{ fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: 36, lineHeight: 1.1, marginTop: 14, letterSpacing: -0.8 }}>
               Built for the descent. <span style={{ color: t.accent }}>Tuned for the line.</span>
             </div>
-            <div style={{ fontSize: 12, color: t.mute, marginTop: 14, lineHeight: 1.55 }}>
+            <div style={{ fontFamily: 'Space Grotesk', fontSize: 15, color: t.mute, marginTop: 16, lineHeight: 1.7 }}>
               Six builds, hand-tuned in Chehalis. Every Looseline is measured,
               fitted, and shop-built before it ships.
             </div>
           </div>
-          <div style={{ borderTop: `1px solid ${t.line}`, paddingTop: 16, display: 'grid', gap: 10, fontSize: 11 }}>
+          <div style={{ borderTop: `1px solid ${t.line}`, paddingTop: 20, display: 'grid', gap: 14, fontSize: 13 }}>
             <DRow k="ORIGIN" v="CHEHALIS, WA" />
             <DRow k="SHOP HRS" v="MON–SAT · 10–18" />
             <DRow k="SERVICE QUEUE" v="3 DAYS" />
             <DRow k="DEMOS BOOKED" v="14 / WK" />
           </div>
-          <div style={{ marginTop: 'auto', display: 'grid', gap: 8 }}>
+          <div style={{ marginTop: 'auto', display: 'grid', gap: 10 }}>
             <button onClick={() => onNav('plp')} style={ctlBtn(t, true)}>BROWSE CATALOG →</button>
             <button onClick={() => onNav('config')} style={ctlBtn(t)}>CONFIGURE A BIKE</button>
             <button onClick={() => onNav('service')} style={ctlBtn(t)}>BOOK A SERVICE</button>
@@ -70,7 +70,7 @@
               <button key={b.code} onClick={() => onSelectBike(i)} style={{
                 ...btnReset, textAlign: 'left',
                 borderRight: i < 2 ? `1px solid ${t.line}` : 'none',
-                padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 10, position: 'relative',
+                padding: '22px 24px', display: 'flex', flexDirection: 'column', gap: 12, position: 'relative',
                 cursor: 'pointer', transition: 'background .12s', height: '100%',
               }}
               onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(217,255,58,0.04)'; }}
@@ -79,7 +79,7 @@
                   <span>{b.code}</span>
                   <span style={{ color: b.stock === 'IN STOCK' ? t.accent : t.mute }}>● {b.stock}</span>
                 </div>
-                <div style={{ fontFamily: 'Space Grotesk', fontSize: 18, fontWeight: 600, letterSpacing: -0.3 }}>{b.name}</div>
+                <div style={{ fontFamily: 'Space Grotesk', fontSize: 17, fontWeight: 700, letterSpacing: -0.3 }}>{b.name}</div>
                 <div style={{ height: 70, position: 'relative' }}>
                   <Stripe caption={b.tag.toUpperCase()} tone={i === 0 ? 'lime' : 'dark'} />
                 </div>

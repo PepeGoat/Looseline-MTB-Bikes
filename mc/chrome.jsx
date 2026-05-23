@@ -10,8 +10,8 @@
   };
 
   const ctlBtn = (t, primary) => ({
-    fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: 0.8,
-    padding: '12px 14px', textAlign: 'center',
+    fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600, fontSize: 13, letterSpacing: 0.2,
+    padding: '13px 18px', textAlign: 'center',
     border: `1px solid ${primary ? t.accent : t.line}`,
     background: primary ? t.accent : 'transparent',
     color: primary ? '#0e0e0c' : t.ink,
@@ -30,8 +30,8 @@
     ];
     return (
       <div style={{
-        height: 56, borderBottom: `1px solid ${t.line}`, padding: '0 24px',
-        display: 'flex', alignItems: 'center', gap: 32, position: 'relative', zIndex: 5,
+        height: 64, borderBottom: `1px solid ${t.line}`, padding: '0 32px',
+        display: 'flex', alignItems: 'center', gap: 40, position: 'relative', zIndex: 5,
         background: t.bg, flexShrink: 0,
       }}>
         <button onClick={() => onNav('home')} style={{
@@ -42,26 +42,26 @@
             <rect x="5" y="5" width="12" height="12" fill={t.accent} />
             <rect x="9" y="9" width="4" height="4" fill={t.bg} />
           </svg>
-          <span style={{ fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: 16, letterSpacing: -0.3, color: t.ink }}>
+          <span style={{ fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: 17, letterSpacing: -0.3, color: t.ink }}>
             LOOSELINE<span style={{ color: t.accent }}>/</span>MTB
           </span>
         </button>
-        <div style={{ display: 'flex', gap: 24 }}>
+        <div style={{ display: 'flex', gap: 28 }}>
           {items.map((l) => {
             const active = screen === l.id || (screen === 'pdp' && l.id === 'plp');
             return (
               <button key={l.id} onClick={() => onNav(l.id)} style={{
                 ...btnReset,
                 color: active ? t.ink : t.mute,
-                borderBottom: active ? `1px solid ${t.accent}` : '1px solid transparent',
-                paddingBottom: 2, cursor: 'pointer',
-                fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: 0.8, textTransform: 'uppercase',
+                borderBottom: active ? `2px solid ${t.accent}` : '2px solid transparent',
+                paddingBottom: 3, cursor: 'pointer',
+                fontFamily: 'Space Grotesk', fontWeight: 500, fontSize: 13, letterSpacing: 0.2,
               }}>{l.label}</button>
             );
           })}
         </div>
         <div style={{ flex: 1 }} />
-        <div style={{ display: 'flex', gap: 18, fontSize: 11, color: t.mute, letterSpacing: 0.6, alignItems: 'center', fontFamily: 'JetBrains Mono' }}>
+        <div style={{ display: 'flex', gap: 20, fontSize: 12, color: t.mute, letterSpacing: 0.3, alignItems: 'center', fontFamily: 'Space Grotesk', fontWeight: 500 }}>
           <span>SEARCH /S</span>
           <span>ACCOUNT</span>
           <button onClick={() => onNav('cart')} style={{
@@ -87,10 +87,10 @@
     }, []);
     return (
       <div style={{
-        height: 28, borderTop: `1px solid ${t.line}`,
+        height: 36, borderTop: `1px solid ${t.line}`,
         display: 'flex', alignItems: 'center',
-        padding: '0 24px', fontSize: 10, color: t.mute, letterSpacing: 0.8, gap: 24,
-        background: t.bg, zIndex: 5, fontFamily: 'JetBrains Mono', flexShrink: 0,
+        padding: '0 32px', fontSize: 11, color: t.mute, letterSpacing: 0.3, gap: 28,
+        background: t.bg, zIndex: 5, fontFamily: 'Space Grotesk', fontWeight: 500, flexShrink: 0,
       }}>
         <span style={{ color: t.accent }}>● LIVE</span>
         <span>SHOP/CHEHALIS-WA</span>
@@ -106,7 +106,7 @@
   function DRow({ k, v }) {
     const t = useTheme();
     return (
-      <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: `1px dotted ${t.line2}`, paddingBottom: 6, fontFamily: 'JetBrains Mono' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: `1px solid ${t.line2}`, paddingBottom: 10, fontFamily: 'Space Grotesk', fontSize: 13 }}>
         <span style={{ color: t.mute }}>{k}</span>
         <span>{v}</span>
       </div>

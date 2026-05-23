@@ -127,7 +127,7 @@ const COLORS = {
   ink: '#f5f2ec',
   inkLight: '#0a0a08',
   mute: '#7a7468',
-  muteLight: '#6e6860',
+  muteLight: '#3d3830',
   panel: '#16161310',
   panelLight: '#0e0e0c08',
   lime: '#c8ff00',

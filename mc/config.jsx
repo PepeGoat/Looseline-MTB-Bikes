@@ -137,9 +137,9 @@
 
         {/* Right: steps */}
         <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          <div style={{ padding: '20px 24px', borderBottom: `1px solid ${t.line}` }}>
-            <div style={{ fontSize: 10, color: t.mute, letterSpacing: 0.8, fontFamily: 'JetBrains Mono' }}>CONFIGURE</div>
-            <div style={{ fontFamily: 'Space Grotesk', fontSize: 22, fontWeight: 600, letterSpacing: -0.3 }}>
+          <div style={{ padding: '28px 28px', borderBottom: `1px solid ${t.line}` }}>
+            <div style={{ fontSize: 11, color: t.mute, letterSpacing: 0.6, fontFamily: 'JetBrains Mono', textTransform: 'uppercase' }}>Configure</div>
+            <div style={{ fontFamily: 'Space Grotesk', fontSize: 24, fontWeight: 700, letterSpacing: -0.4, marginTop: 4 }}>
               {base.name} · Build
             </div>
             <div style={{ marginTop: 14, display: 'flex', gap: 4 }}>
@@ -163,7 +163,7 @@
               const isPast = i < active;
               return (
                 <div key={s.id} style={{
-                  padding: '14px 24px',
+                  padding: '18px 28px',
                   borderBottom: `1px solid ${t.line}`,
                   background: isActive ? 'rgba(217,255,58,0.04)' : 'transparent',
                   cursor: isActive ? 'default' : 'pointer',
@@ -178,8 +178,8 @@
                         fontSize: 9, fontWeight: 700, fontFamily: 'JetBrains Mono',
                       }}>{isPast ? '✓' : i + 1}</span>
                       <span style={{
-                        color: isActive ? t.ink : (isPast ? t.ink : t.mute), fontSize: 12,
-                        textTransform: 'uppercase', letterSpacing: 0.4, fontFamily: 'JetBrains Mono',
+                        color: isActive ? t.ink : (isPast ? t.ink : t.mute), fontSize: 14,
+                        fontFamily: 'Space Grotesk', fontWeight: 600,
                       }}>{s.label}</span>
                     </span>
                     <span style={{ fontSize: 10, color: t.mute, fontFamily: 'JetBrains Mono' }}>

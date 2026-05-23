@@ -211,7 +211,7 @@
 
         {/* Right rail — spec sheet */}
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
-          <div style={{ padding: '20px 24px', borderBottom: `1px solid ${t.line}` }}>
+          <div style={{ padding: '28px 28px', borderBottom: `1px solid ${t.line}` }}>
             <div style={{
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
               fontSize: 10, color: t.mute, fontFamily: 'JetBrains Mono', letterSpacing: 0.6,
@@ -220,26 +220,26 @@
               <span style={{ color: bike.stock === 'IN STOCK' ? t.accent : t.mute }}>● {bike.stock}</span>
             </div>
             <div style={{
-              fontFamily: 'Space Grotesk', fontWeight: 600, fontSize: 32,
-              letterSpacing: -0.6, marginTop: 4,
+              fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: 32,
+              letterSpacing: -0.6, marginTop: 6,
             }}>{bike.name}</div>
-            <div style={{ fontSize: 11, color: t.mute, marginTop: 4, lineHeight: 1.55 }}>
+            <div style={{ fontFamily: 'Space Grotesk', fontSize: 14, color: t.mute, marginTop: 8, lineHeight: 1.7 }}>
               {bike.tag}-tuned, {bike.travel} of travel. {bike.frame} construction.
               Shop-built before it ships.
             </div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginTop: 16 }}>
-              <span style={{ fontFamily: 'Space Grotesk', fontSize: 30, fontWeight: 600 }}>${bike.price.toLocaleString()}</span>
-              <span style={{ fontSize: 11, color: t.mute, fontFamily: 'JetBrains Mono' }}>
-                OR ${Math.round(bike.price / 36)}/MO · 36 MO
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginTop: 20 }}>
+              <span style={{ fontFamily: 'Space Grotesk', fontSize: 30, fontWeight: 700 }}>${bike.price.toLocaleString()}</span>
+              <span style={{ fontFamily: 'Space Grotesk', fontSize: 13, color: t.mute }}>
+                or ${Math.round(bike.price / 36)}/mo · 36 mo
               </span>
             </div>
           </div>
 
           <div style={{
-            padding: '20px 24px', borderBottom: `1px solid ${t.line}`,
-            fontSize: 11, fontFamily: 'JetBrains Mono',
+            padding: '24px 28px', borderBottom: `1px solid ${t.line}`,
+            fontSize: 13, fontFamily: 'Space Grotesk',
           }}>
-            <div style={{ color: t.mute, marginBottom: 10 }}>SIZE · MM REACH</div>
+            <div style={{ color: t.mute, marginBottom: 12, fontSize: 11, letterSpacing: 0.5, textTransform: 'uppercase', fontFamily: 'JetBrains Mono' }}>Size · mm reach</div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 4 }}>
               {sizes.map(([s, v]) => (
                 <button key={s} onClick={() => setSize(s)} style={{
@@ -256,13 +256,13 @@
             </div>
           </div>
 
-          <div style={{ padding: '18px 24px', fontSize: 11, flex: 1, overflow: 'auto', fontFamily: 'JetBrains Mono' }}>
-            <div style={{ color: t.mute, marginBottom: 10 }}>SPECIFICATION</div>
-            <div style={{ display: 'grid', gap: 6 }}>
+          <div style={{ padding: '24px 28px', fontSize: 13, flex: 1, overflow: 'auto', fontFamily: 'Space Grotesk' }}>
+            <div style={{ color: t.mute, marginBottom: 14, fontSize: 11, letterSpacing: 0.5, textTransform: 'uppercase', fontFamily: 'JetBrains Mono' }}>Specification</div>
+            <div style={{ display: 'grid', gap: 10 }}>
               {specs.map(([k, v]) => (
                 <div key={k} style={{
                   display: 'flex', justifyContent: 'space-between',
-                  borderBottom: `1px dotted ${t.line2}`, paddingBottom: 5,
+                  borderBottom: `1px solid ${t.line2}`, paddingBottom: 8,
                 }}>
                   <span style={{ color: t.mute }}>{k}</span>
                   <span style={{ textAlign: 'right' }}>{v}</span>

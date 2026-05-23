@@ -44,7 +44,7 @@
         {/* Lines */}
         <div style={{ overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
           <div style={{
-            padding: '24px 28px', borderBottom: `1px solid ${t.line}`,
+            padding: '32px 32px', borderBottom: `1px solid ${t.line}`,
             display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
             position: 'sticky', top: 0, background: t.bg, zIndex: 2,
           }}>
@@ -74,7 +74,7 @@
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               color: '#0e0e0c', fontSize: 10, fontWeight: 700,
             }}>{servicePlan ? '✓' : ''}</span>
-            <div style={{ flex: 1, fontSize: 12, color: t.mute, fontFamily: 'JetBrains Mono', letterSpacing: 0.4 }}>
+            <div style={{ flex: 1, fontSize: 13, color: t.mute, fontFamily: 'Space Grotesk', lineHeight: 1.6 }}>
               ANNUAL SERVICE PLAN — full tune-up, parts at cost, free flats.
               <span style={{ color: t.accent, marginLeft: 8 }}>+ $190 / YR</span>
             </div>
@@ -153,8 +153,8 @@
     const t = useTheme();
     return (
       <div style={{
-        padding: '18px 28px', borderBottom: `1px solid ${t.line}`,
-        display: 'grid', gridTemplateColumns: '120px 1fr auto', gap: 20, alignItems: 'flex-start',
+        padding: '24px 32px', borderBottom: `1px solid ${t.line}`,
+        display: 'grid', gridTemplateColumns: '120px 1fr auto', gap: 24, alignItems: 'flex-start',
       }}>
         <div style={{ width: 120, height: 80, position: 'relative' }}>
           <Stripe caption={item.tag.toUpperCase()} tone={item.code.includes('X742') ? 'lime' : 'cream'} />
@@ -164,7 +164,7 @@
             <span>{item.code}</span><span>·</span><span>{item.tag.toUpperCase()}</span>
             {item.build !== 'STOCK' && <span style={{ color: t.accent }}>· CUSTOM</span>}
           </div>
-          <div style={{ fontFamily: 'Space Grotesk', fontSize: 17, fontWeight: 600, marginTop: 4 }}>{item.name}</div>
+          <div style={{ fontFamily: 'Space Grotesk', fontSize: 18, fontWeight: 700, marginTop: 6 }}>{item.name}</div>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 8, fontSize: 11, color: t.mute, fontFamily: 'JetBrains Mono' }}>
             <span>· Size {item.size}</span>
             {item.build !== 'STOCK' && <span>· {item.build}</span>}

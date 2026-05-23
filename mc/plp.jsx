@@ -43,14 +43,14 @@
       <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', height: '100%' }}>
         {/* Filter rail */}
         <div style={{
-          borderRight: `1px solid ${t.line}`, padding: '24px 20px',
-          fontSize: 11, fontFamily: 'JetBrains Mono', overflowY: 'auto',
+          borderRight: `1px solid ${t.line}`, padding: '32px 24px',
+          fontSize: 13, fontFamily: 'Space Grotesk', overflowY: 'auto',
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
             <span style={{ color: t.mute }}>FILTERS</span>
             <button onClick={resetFilters} style={{
               ...btnReset, color: activeCount ? t.accent : t.mute, cursor: 'pointer',
-              fontFamily: 'inherit', fontSize: 11,
+              fontFamily: 'inherit', fontSize: 13,
             }}>
               {activeCount ? `${activeCount} ACTIVE ×` : 'RESET'}
             </button>
@@ -95,8 +95,8 @@
                   ...btnReset, textAlign: 'left',
                   borderRight: (i % 3) < 2 ? `1px solid ${t.line}` : 'none',
                   borderBottom: `1px solid ${t.line}`,
-                  padding: 20, display: 'flex', flexDirection: 'column', gap: 12, position: 'relative',
-                  cursor: 'pointer', minHeight: 320, transition: 'background .12s',
+                  padding: 28, display: 'flex', flexDirection: 'column', gap: 14, position: 'relative',
+                  cursor: 'pointer', minHeight: 340, transition: 'background .12s',
                 }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(217,255,58,0.04)'; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}>
@@ -109,13 +109,13 @@
                   <div style={{ height: 150, position: 'relative' }}>
                     <Stripe caption={b.name.toUpperCase()} tone={i === 0 ? 'lime' : i === 2 ? 'cream' : 'dark'} />
                   </div>
-                  <div style={{ fontFamily: 'Space Grotesk', fontSize: 19, fontWeight: 600, letterSpacing: -0.3 }}>{b.name}</div>
-                  <div style={{ fontSize: 10, color: t.mute, lineHeight: 1.7, fontFamily: 'JetBrains Mono' }}>
+                  <div style={{ fontFamily: 'Space Grotesk', fontSize: 20, fontWeight: 700, letterSpacing: -0.4 }}>{b.name}</div>
+                  <div style={{ fontSize: 12, color: t.mute, lineHeight: 1.8, fontFamily: 'Space Grotesk' }}>
                     {b.travel} · {b.weight} · {b.frame}
                   </div>
                   <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                    <span style={{ fontFamily: 'Space Grotesk', fontSize: 19, fontWeight: 600 }}>${b.price.toLocaleString()}</span>
-                    <span style={{ fontSize: 10, color: b.stock === 'IN STOCK' ? t.accent : t.mute, fontFamily: 'JetBrains Mono', letterSpacing: 0.6 }}>● {b.stock}</span>
+                    <span style={{ fontFamily: 'Space Grotesk', fontSize: 20, fontWeight: 700 }}>${b.price.toLocaleString()}</span>
+                    <span style={{ fontSize: 12, color: b.stock === 'IN STOCK' ? t.accent : t.mute, fontFamily: 'Space Grotesk', fontWeight: 600 }}>● {b.stock}</span>
                   </div>
                 </button>
               ))}
@@ -129,13 +129,13 @@
   function FilterGrp({ title, items, onToggle, isOn }) {
     const t = useTheme();
     return (
-      <div style={{ marginBottom: 22 }}>
-        <div style={{ color: t.mute, marginBottom: 8 }}>{title}</div>
-        <div style={{ display: 'grid', gap: 6 }}>
+      <div style={{ marginBottom: 28 }}>
+        <div style={{ color: t.mute, marginBottom: 12, fontSize: 11, letterSpacing: 0.6, textTransform: 'uppercase', fontFamily: 'JetBrains Mono' }}>{title}</div>
+        <div style={{ display: 'grid', gap: 10 }}>
           {items.map((label) => {
             const on = isOn(label);
             return (
-              <label key={label} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <label key={label} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 13 }}>
                 <input type="checkbox" checked={on} onChange={() => onToggle(label)} style={{ display: 'none' }} />
                 <span style={{
                   width: 12, height: 12, border: `1px solid ${on ? t.accent : t.line}`,
