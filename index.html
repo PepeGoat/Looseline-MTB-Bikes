@@ -2,77 +2,221 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Looseline MTB · Mission Control</title>
+  <title>Looseline MTB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Archivo+Black&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    html, body, #root { margin: 0; padding: 0; height: 100%; background: #f4efe6; }
-    * { box-sizing: border-box; }
-    input { font-family: inherit; color: inherit; }
-    button { -webkit-tap-highlight-color: transparent; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange: #F26A1F; --yellow: #F9C429; --cream: #F6EDDD;
+      --paper: #FFFAF1; --red: #C8311B; --ink: #1A0E07; --max: 1180px;
+      --font-display: "Bagel Fat One", system-ui, sans-serif;
+      --font-bold: "Archivo Black", "Helvetica Neue", Arial, sans-serif;
+      --font-body: "Inter Tight", "Inter", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: var(--ink); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--orange); }
+    .nav-logo { font-family: var(--font-display); font-size: 24px; color: var(--paper); text-decoration: none; }
+    .nav-logo span { color: var(--yellow); }
+    .nav-owners { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.8px; color: rgba(255,250,241,0.55); text-transform: uppercase; }
+    .nav-owners strong { color: var(--cream); font-weight: 500; }
+
+    .hero { padding: 80px 32px 64px; max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .hero-headline { font-family: var(--font-display); font-size: clamp(48px, 7vw, 96px); line-height: 0.95; letter-spacing: -1px; }
+    .hero-headline span { color: var(--orange); }
+    .hero-right { display: flex; flex-direction: column; gap: 20px; }
+    .hero-sub { font-size: clamp(16px, 1.4vw, 19px); line-height: 1.55; color: rgba(26,14,7,0.7); max-width: 380px; }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; }
+    .badge { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; padding: 6px 14px; border: 2px solid var(--ink); border-radius: 999px; background: var(--paper); }
+    .badge.orange { background: var(--orange); color: var(--paper); border-color: var(--orange); }
+    .badge.yellow { background: var(--yellow); border-color: var(--yellow); }
+
+    .owners-strip { background: var(--orange); padding: 14px 32px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+    .owners-strip p { font-family: var(--font-bold); font-size: 15px; color: var(--paper); text-align: center; }
+    .owners-strip span { color: var(--ink); font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; padding: 4px 12px; background: var(--paper); border-radius: 999px; margin: 0 4px; }
+
+    .bikes { padding: 64px 32px 80px; max-width: var(--max); margin: 0 auto; }
+    .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(26,14,7,0.45); margin-bottom: 10px; }
+    .section-title { font-family: var(--font-display); font-size: clamp(34px, 4vw, 52px); line-height: 1; margin-bottom: 40px; }
+    .bikes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+    .bike-card { background: var(--paper); border: 2.5px solid var(--ink); border-radius: 20px; box-shadow: 7px 7px 0 var(--ink); position: relative; overflow: hidden; transition: transform 180ms ease, box-shadow 180ms ease; cursor: pointer; }
+    .bike-card:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--ink); }
+    .bike-photo { width: 100%; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; }
+    .bike-photo img { width: 100%; height: 100%; object-fit: contain; padding: 16px; }
+    .bike-photo.black { background: #f7f7f7; }
+    .bike-photo.red   { background: #fff5f5; }
+    .bike-photo.gray  { background: #f5f4f2; }
+    .bike-photo-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: rgba(26,14,7,0.3); }
+    .bike-body { padding: 20px 22px 22px; border-top: 2px solid var(--ink); }
+    .bike-tags { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+    .bike-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.7px; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 1.5px solid var(--ink); }
+    .bike-tag.neg    { background: var(--yellow); border-color: var(--yellow); }
+    .bike-tag.firm   { background: var(--ink); color: var(--paper); }
+    .bike-tag.custom { background: var(--orange); color: var(--paper); border-color: var(--orange); }
+    .bike-tag.nocust { background: var(--cream); color: rgba(26,14,7,0.55); }
+    .bike-price { font-family: var(--font-display); font-size: 42px; line-height: 1; margin-bottom: 8px; }
+    .bike-detail { font-size: 13px; color: rgba(26,14,7,0.6); line-height: 1.5; padding-top: 12px; border-top: 1.5px dashed rgba(26,14,7,0.16); }
+
+    .bike-overlay { position: absolute; inset: 0; background: var(--ink); color: var(--paper); padding: 28px 26px; display: flex; flex-direction: column; justify-content: flex-end; gap: 12px; opacity: 0; transform: translateY(12px); transition: opacity 200ms ease, transform 200ms ease; pointer-events: none; }
+    .bike-card:hover .bike-overlay { opacity: 1; transform: translateY(0); }
+    .ov-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; opacity: 0.55; }
+    .ov-price { font-family: var(--font-display); font-size: 56px; line-height: 1; color: var(--yellow); }
+    .ov-rows { display: flex; flex-direction: column; gap: 8px; }
+    .ov-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,250,241,0.1); padding-bottom: 8px; }
+    .ov-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .ov-key { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase; opacity: 0.55; }
+    .ov-val { font-family: var(--font-bold); font-size: 13px; }
+    .ov-val.yes  { color: var(--yellow); }
+    .ov-val.no   { color: rgba(255,250,241,0.4); }
+    .ov-val.free { color: #7aff6b; }
+
+    .contact { background: var(--cream); border-top: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink); padding: 56px 32px; text-align: center; }
+    .contact h2 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); margin-bottom: 16px; }
+    .contact p { font-size: 16px; color: rgba(26,14,7,0.68); margin-bottom: 28px; max-width: 460px; margin-left: auto; margin-right: auto; line-height: 1.55; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-bold); font-size: 15px; padding: 16px 32px; background: var(--ink); color: var(--paper); border: 2.5px solid var(--ink); border-radius: 12px; box-shadow: 5px 5px 0 var(--orange); text-decoration: none; transition: transform 180ms ease, box-shadow 180ms ease; }
+    .btn:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--orange); }
+
+    footer { background: var(--ink); padding: 40px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+    .footer-logo { font-family: var(--font-display); font-size: 22px; color: var(--paper); }
+    .footer-logo span { color: var(--yellow); }
+    .footer-owners { text-align: center; }
+    .footer-owners p { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: rgba(255,250,241,0.4); margin-bottom: 6px; }
+    .footer-owners .names { font-family: var(--font-bold); font-size: 14px; color: var(--cream); }
+    .footer-loc { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: rgba(255,250,241,0.4); text-align: right; }
+    .footer-loc strong { display: block; font-family: var(--font-body); font-size: 14px; font-weight: 600; color: rgba(255,250,241,0.65); margin-top: 4px; }
+
+    @media (max-width: 900px) {
+      .bikes-grid { grid-template-columns: 1fr 1fr; }
+      .hero { grid-template-columns: 1fr; gap: 24px; }
+    }
+    @media (max-width: 580px) {
+      .bikes-grid { grid-template-columns: 1fr; }
+      nav, .hero, .bikes, .contact { padding-left: 20px; padding-right: 20px; }
+      footer { flex-direction: column; align-items: flex-start; }
+      .footer-owners, .footer-loc { text-align: left; }
+    }
   </style>
-
-  <script>
-    window.addEventListener('error', (e) => {
-      if (e && e.message && /ResizeObserver loop/.test(e.message)) {
-        e.stopImmediatePropagation();
-        e.preventDefault();
-      }
-    });
-  </script>
-
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-
-  <script>
-    (() => {
-      const q = window.location.search;
-      const files = [
-        'shared.jsx',
-        'mc/chrome.jsx',
-        'mc/home.jsx',
-        'mc/plp.jsx',
-        'mc/pdp.jsx',
-        'mc/config.jsx',
-        'mc/cart.jsx',
-        'mc/app.jsx',
-      ];
-      for (const f of files) {
-        const s = document.createElement('script');
-        s.type = 'text/babel';
-        s.dataset.presets = 'react';
-        s.src = f + q;
-        document.head.appendChild(s);
-      }
-    })();
-  </script>
 </head>
 <body>
-  <div id="root"></div>
 
-  <script type="text/babel" data-presets="react">
-    function Root() {
-      const App = window.MC && window.MC.App;
-      if (!App) return null;
-      return (
-        <window.LightCtx.Provider value={true}>
-          <App />
-        </window.LightCtx.Provider>
-      );
-    }
-    function mount() {
-      if (window.MC && window.MC.App) {
-        ReactDOM.createRoot(document.getElementById('root')).render(<Root />);
-      } else {
-        setTimeout(mount, 30);
-      }
-    }
-    mount();
-  </script>
+  <nav>
+    <a href="#" class="nav-logo">LOOSELINE<span>/</span>MTB</a>
+    <div class="nav-owners"><strong>Matija Ercegovac</strong> &amp; <strong>Tian Delija</strong></div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-headline">Best<br>MTB<br><span>Bikes</span><br>Ever!</div>
+    <div class="hero-right">
+      <p class="hero-sub">Three hand-picked machines, shop-ready and waiting. Each one built to rip — whether you're on loam, hardpack, or something steeper.</p>
+      <div class="hero-badges">
+        <span class="badge orange">3 Bikes Available</span>
+        <span class="badge yellow">Chehalis, WA</span>
+        <span class="badge">Shop-Built</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="owners-strip">
+    <p>Brought to you by <span>Matija Ercegovac</span> &amp; <span>Tian Delija</span></p>
+  </div>
+
+  <section class="bikes">
+    <div class="section-label">Current Inventory</div>
+    <h2 class="section-title">Pick Your Machine</h2>
+    <div class="bikes-grid">
+
+      <!-- GRAY -->
+      <div class="bike-card">
+        <div class="bike-photo gray">
+          <img src="images/bike-gray.jpg" alt="Gray frame MTB" onerror="this.parentNode.innerHTML='<div class=\'bike-photo-placeholder\'>Gray Frame</div>'" />
+        </div>
+        <div class="bike-body">
+          <div class="bike-tags">
+            <span class="bike-tag neg">Negotiable</span>
+            <span class="bike-tag nocust">No Customization</span>
+          </div>
+          <div class="bike-price">$2,100</div>
+          <div class="bike-detail">Gray frame · As-is · Price open to offers</div>
+        </div>
+        <div class="bike-overlay">
+          <div class="ov-label">Asking Price</div>
+          <div class="ov-price">$2,100</div>
+          <div class="ov-rows">
+            <div class="ov-row"><span class="ov-key">Negotiable</span><span class="ov-val yes">Yes</span></div>
+            <div class="ov-row"><span class="ov-key">Customization</span><span class="ov-val no">Not Available</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLACK -->
+      <div class="bike-card">
+        <div class="bike-photo black">
+          <img src="images/bike-black.jpg" alt="Black frame MTB" onerror="this.parentNode.innerHTML='<div class=\'bike-photo-placeholder\'>Black Frame</div>'" />
+        </div>
+        <div class="bike-body">
+          <div class="bike-tags">
+            <span class="bike-tag firm">Firm Price</span>
+            <span class="bike-tag custom">Free Custom</span>
+          </div>
+          <div class="bike-price">$2,750</div>
+          <div class="bike-detail">Black frame · No negotiation · Customization included free</div>
+        </div>
+        <div class="bike-overlay">
+          <div class="ov-label">Asking Price</div>
+          <div class="ov-price">$2,750</div>
+          <div class="ov-rows">
+            <div class="ov-row"><span class="ov-key">Negotiable</span><span class="ov-val no">No — firm price</span></div>
+            <div class="ov-row"><span class="ov-key">Customization</span><span class="ov-val free">Free</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RED -->
+      <div class="bike-card">
+        <div class="bike-photo red">
+          <img src="images/bike-red.jpg" alt="Red frame MTB" onerror="this.parentNode.innerHTML='<div class=\'bike-photo-placeholder\'>Red Frame</div>'" />
+        </div>
+        <div class="bike-body">
+          <div class="bike-tags">
+            <span class="bike-tag neg">Negotiable</span>
+            <span class="bike-tag custom">Custom +$500</span>
+          </div>
+          <div class="bike-price">$2,550</div>
+          <div class="bike-detail">Red frame · Open to offers · Customization available for +$500</div>
+        </div>
+        <div class="bike-overlay">
+          <div class="ov-label">Asking Price</div>
+          <div class="ov-price">$2,550</div>
+          <div class="ov-rows">
+            <div class="ov-row"><span class="ov-key">Negotiable</span><span class="ov-val yes">Yes</span></div>
+            <div class="ov-row"><span class="ov-key">Customization</span><span class="ov-val yes">+ $500</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="contact">
+    <h2>Interested? Let's Talk.</h2>
+    <p>Reach out to Matija or Tian directly — we'll get back to you fast. No bots, no forms, just real people who love bikes.</p>
+    <a href="mailto:contact@looseline.mtb" class="btn">Get in Touch →</a>
+  </section>
+
+  <footer>
+    <div class="footer-logo">LOOSELINE<span>/</span>MTB</div>
+    <div class="footer-owners">
+      <p>Owners</p>
+      <div class="names">Matija Ercegovac &amp; Tian Delija</div>
+    </div>
+    <div class="footer-loc">Location<strong>Chehalis, WA</strong></div>
+  </footer>
+
 </body>
 </html>
