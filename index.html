@@ -7,6 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700;800&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -14,215 +17,652 @@
       --lime:   #AAFF00;
       --pine:   #0B1A0C;
       --bg:     #ECEAE3;
-      --stone:  #D8DDD0;
+      --stone:  #D4D9CC;
       --ink:    #0C1A0D;
       --slate:  #4A6148;
       --max:    1180px;
-      --font-display: "Bebas Neue", Impact, sans-serif;
-      --font-bold:    "Barlow Condensed", "Helvetica Neue", Arial, sans-serif;
-      --font-body:    "Inter Tight", "Inter", system-ui, sans-serif;
-      --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+      --fd: "Bebas Neue", Impact, sans-serif;
+      --fb: "Barlow Condensed", Arial, sans-serif;
+      --fs: "Inter Tight", system-ui, sans-serif;
+      --fm: "JetBrains Mono", monospace;
     }
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--ink); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--fs); -webkit-font-smoothing: antialiased; }
 
-    nav { position: sticky; top: 0; z-index: 100; background: var(--pine); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--lime); }
-    .nav-logo { font-family: var(--font-display); font-size: 28px; letter-spacing: 2px; color: #f0f0ec; text-decoration: none; }
+    /* ── NAV ── */
+    .nav { position: sticky; top: 0; z-index: 100; background: var(--pine); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--lime); gap: 16px; }
+    .nav-logo { font-family: var(--fd); font-size: 26px; letter-spacing: 2px; color: #f0f0ec; background: none; border: none; cursor: pointer; padding: 0; }
     .nav-logo span { color: var(--lime); }
-    .nav-owners { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.8px; color: rgba(240,240,236,0.5); text-transform: uppercase; }
+    .nav-owners { font-family: var(--fm); font-size: 11px; letter-spacing: 0.8px; color: rgba(240,240,236,0.5); text-transform: uppercase; flex: 1; text-align: center; }
     .nav-owners strong { color: rgba(240,240,236,0.85); font-weight: 500; }
+    .nav-cart { font-family: var(--fm); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; background: none; border: 1.5px solid rgba(170,255,0,0.4); color: #f0f0ec; padding: 6px 14px; cursor: pointer; border-radius: 6px; display: flex; align-items: center; gap: 8px; transition: border-color 0.15s; }
+    .nav-cart:hover { border-color: var(--lime); }
+    .cart-badge { background: var(--lime); color: var(--ink); font-weight: 700; font-size: 10px; padding: 1px 6px; border-radius: 999px; }
 
+    /* ── HERO ── */
     .hero { padding: 80px 32px 64px; max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-    .hero-headline { font-family: var(--font-display); font-size: clamp(56px, 8vw, 108px); line-height: 0.92; letter-spacing: 2px; }
+    .hero-headline { font-family: var(--fd); font-size: clamp(56px, 8vw, 108px); line-height: 0.92; letter-spacing: 2px; }
     .hero-headline span { color: var(--green); }
     .hero-right { display: flex; flex-direction: column; gap: 20px; }
-    .hero-sub { font-size: clamp(16px, 1.4vw, 19px); line-height: 1.55; color: rgba(12,26,13,0.68); max-width: 380px; }
+    .hero-sub { font-size: clamp(15px, 1.4vw, 18px); line-height: 1.6; color: rgba(12,26,13,0.68); max-width: 380px; }
     .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; }
-    .badge { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; padding: 6px 14px; border: 2px solid var(--ink); border-radius: 999px; background: var(--bg); }
+    .badge { font-family: var(--fm); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; padding: 6px 14px; border: 2px solid var(--ink); border-radius: 999px; background: var(--bg); }
     .badge.green { background: var(--green); color: #f0f0ec; border-color: var(--green); }
     .badge.lime  { background: var(--lime); border-color: var(--lime); color: var(--ink); }
 
+    /* ── OWNERS STRIP ── */
     .owners-strip { background: var(--green); padding: 14px 32px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
-    .owners-strip p { font-family: var(--font-bold); font-size: 15px; font-weight: 700; color: #f0f0ec; text-align: center; letter-spacing: 0.5px; }
-    .owners-strip span { color: var(--ink); font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; padding: 4px 12px; background: var(--lime); border-radius: 999px; margin: 0 4px; }
+    .owners-strip p { font-family: var(--fb); font-size: 15px; font-weight: 700; color: #f0f0ec; text-align: center; letter-spacing: 0.5px; }
+    .owners-strip span { color: var(--ink); font-family: var(--fm); font-size: 11px; letter-spacing: 1px; padding: 4px 12px; background: var(--lime); border-radius: 999px; margin: 0 4px; }
 
-    .bikes { padding: 64px 32px 80px; max-width: var(--max); margin: 0 auto; }
-    .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(12,26,13,0.4); margin-bottom: 10px; }
-    .section-title { font-family: var(--font-display); font-size: clamp(36px, 4.5vw, 56px); letter-spacing: 2px; line-height: 1; margin-bottom: 40px; }
+    /* ── BIKES GRID ── */
+    .bikes-section { padding: 64px 32px 80px; max-width: var(--max); margin: 0 auto; }
+    .section-label { font-family: var(--fm); font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(12,26,13,0.4); margin-bottom: 10px; }
+    .section-title { font-family: var(--fd); font-size: clamp(36px, 4.5vw, 56px); letter-spacing: 2px; line-height: 1; margin-bottom: 40px; }
     .bikes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
+    /* ── BIKE CARD ── */
     .bike-card { background: #f5f4ef; border: 2.5px solid var(--ink); border-radius: 20px; box-shadow: 7px 7px 0 var(--ink); position: relative; overflow: hidden; transition: transform 180ms ease, box-shadow 180ms ease; cursor: pointer; }
     .bike-card:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--ink); }
-    .bike-photo { width: 100%; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; }
-    .bike-photo img { width: 100%; height: 100%; object-fit: contain; padding: 16px; }
-    .bike-photo.black { background: #f2f2f0; }
-    .bike-photo.red   { background: #f5f1f0; }
-    .bike-photo.gray  { background: #f0f1ee; }
-    .bike-photo-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: rgba(12,26,13,0.3); }
+
+    .bike-photo-wrap { width: 100%; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; }
+    .bike-photo-wrap img { width: 100%; height: 100%; object-fit: contain; padding: 16px; }
+    .bike-photo-wrap.large { aspect-ratio: unset; height: 360px; border: 2px solid var(--ink); border-radius: 16px; overflow: hidden; }
+    .photo-placeholder { font-family: var(--fm); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: rgba(12,26,13,0.3); }
+
     .bike-body { padding: 20px 22px 22px; border-top: 2px solid var(--ink); }
     .bike-tags { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-    .bike-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.7px; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 1.5px solid var(--ink); }
+    .bike-tag { font-family: var(--fm); font-size: 10px; letter-spacing: 0.7px; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 1.5px solid var(--ink); }
     .bike-tag.neg    { background: var(--lime); border-color: var(--lime); color: var(--ink); }
     .bike-tag.firm   { background: var(--ink); color: #f0f0ec; }
-    .bike-tag.custom { background: var(--green); color: #f0f0ec; border-color: var(--green); }
+    .bike-tag.custom-tag { background: var(--green); color: #f0f0ec; border-color: var(--green); }
     .bike-tag.nocust { background: var(--stone); color: var(--slate); border-color: var(--stone); }
-    .bike-price { font-family: var(--font-display); font-size: 48px; letter-spacing: 1px; line-height: 1; margin-bottom: 8px; }
+    .bike-price { font-family: var(--fd); font-size: 48px; letter-spacing: 1px; line-height: 1; margin-bottom: 8px; }
     .bike-detail { font-size: 13px; color: rgba(12,26,13,0.58); line-height: 1.5; padding-top: 12px; border-top: 1.5px dashed rgba(12,26,13,0.16); }
 
+    /* ── CARD OVERLAY ── */
     .bike-overlay { position: absolute; inset: 0; background: var(--pine); color: #f0f0ec; padding: 28px 26px; display: flex; flex-direction: column; justify-content: flex-end; gap: 12px; opacity: 0; transform: translateY(12px); transition: opacity 200ms ease, transform 200ms ease; pointer-events: none; }
     .bike-card:hover .bike-overlay { opacity: 1; transform: translateY(0); }
-    .ov-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; opacity: 0.5; }
-    .ov-price { font-family: var(--font-display); font-size: 60px; letter-spacing: 2px; line-height: 1; color: var(--lime); }
+    .ov-label { font-family: var(--fm); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; opacity: 0.5; }
+    .ov-price { font-family: var(--fd); font-size: 60px; letter-spacing: 2px; line-height: 1; color: var(--lime); }
     .ov-rows { display: flex; flex-direction: column; gap: 8px; }
     .ov-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(240,240,236,0.1); padding-bottom: 8px; }
     .ov-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .ov-key { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase; opacity: 0.5; }
-    .ov-val { font-family: var(--font-bold); font-size: 13px; font-weight: 700; letter-spacing: 0.4px; }
+    .ov-key { font-family: var(--fm); font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase; opacity: 0.5; }
+    .ov-val { font-family: var(--fb); font-size: 13px; font-weight: 700; }
     .ov-val.yes  { color: var(--lime); }
     .ov-val.no   { color: rgba(240,240,236,0.35); }
     .ov-val.free { color: #7aff6b; }
+    .ov-cta { font-family: var(--fm); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; opacity: 0.6; border-top: 1px dashed rgba(240,240,236,0.2); padding-top: 10px; }
 
-    .contact { background: var(--stone); border-top: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink); padding: 56px 32px; text-align: center; }
-    .contact h2 { font-family: var(--font-display); font-size: clamp(36px, 4.5vw, 56px); letter-spacing: 2px; margin-bottom: 16px; }
-    .contact p { font-size: 16px; color: rgba(12,26,13,0.65); margin-bottom: 28px; max-width: 460px; margin-left: auto; margin-right: auto; line-height: 1.55; }
-    .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-bold); font-size: 16px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 16px 32px; background: var(--ink); color: #f0f0ec; border: 2.5px solid var(--ink); border-radius: 12px; box-shadow: 5px 5px 0 var(--lime); text-decoration: none; transition: transform 180ms ease, box-shadow 180ms ease; }
-    .btn:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--lime); }
+    /* ── CONTACT ── */
+    .contact-section { background: var(--stone); border-top: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink); padding: 56px 32px; text-align: center; }
+    .contact-section h2 { font-family: var(--fd); font-size: clamp(36px, 4.5vw, 56px); letter-spacing: 2px; margin-bottom: 16px; }
+    .contact-section p { font-size: 16px; color: rgba(12,26,13,0.65); margin-bottom: 28px; max-width: 460px; margin-left: auto; margin-right: auto; line-height: 1.55; }
 
-    footer { background: var(--pine); padding: 40px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
-    .footer-logo { font-family: var(--font-display); font-size: 26px; letter-spacing: 2px; color: #f0f0ec; }
+    /* ── BUTTONS ── */
+    .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--fb); font-size: 16px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 14px 28px; background: var(--ink); color: #f0f0ec; border: 2.5px solid var(--ink); border-radius: 10px; box-shadow: 4px 4px 0 var(--lime); text-decoration: none; cursor: pointer; transition: transform 180ms ease, box-shadow 180ms ease; }
+    .btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--lime); }
+    .btn.btn-outline { background: transparent; color: var(--ink); box-shadow: 4px 4px 0 var(--ink); }
+    .btn.btn-outline:hover { box-shadow: 6px 6px 0 var(--ink); }
+    .btn.btn-sm { font-size: 13px; padding: 10px 20px; }
+    .btn.added { background: var(--green); border-color: var(--green); box-shadow: 4px 4px 0 var(--lime); }
+    .add-cart-btn { width: 100%; justify-content: center; margin-top: 16px; font-size: 17px; padding: 16px; }
+
+    /* ── DETAIL PAGE ── */
+    .detail-page { max-width: var(--max); margin: 0 auto; padding: 32px 32px 80px; }
+    .back-btn { font-family: var(--fm); font-size: 12px; letter-spacing: 0.8px; text-transform: uppercase; background: none; border: none; cursor: pointer; color: var(--slate); padding: 0 0 24px; display: block; }
+    .back-btn:hover { color: var(--ink); }
+    .detail-grid { display: grid; grid-template-columns: 1fr 420px; gap: 48px; align-items: flex-start; }
+    .detail-left { display: flex; flex-direction: column; gap: 20px; }
+    .detail-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .negotiate-box { border: 2px dashed var(--green); border-radius: 12px; padding: 20px; background: rgba(27,94,32,0.04); }
+    .neg-label { font-family: var(--fd); font-size: 22px; letter-spacing: 1px; color: var(--green); margin-bottom: 8px; }
+    .neg-body { font-size: 14px; color: var(--slate); line-height: 1.55; margin-bottom: 16px; }
+
+    /* ── DETAIL RIGHT ── */
+    .detail-right { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 80px; }
+    .detail-header { background: var(--pine); color: #f0f0ec; padding: 24px; border-radius: 14px; }
+    .mono-label { font-family: var(--fm); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--slate); }
+    .detail-header .mono-label { color: rgba(240,240,236,0.5); }
+    .detail-price-main { font-family: var(--fd); font-size: 64px; letter-spacing: 2px; line-height: 1; color: #f0f0ec; margin: 4px 0 6px; }
+
+    /* ── CUSTOM TOGGLE ── */
+    .custom-toggle { width: 100%; display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 2px solid var(--stone); border-radius: 12px; background: transparent; cursor: pointer; text-align: left; transition: border-color 0.15s, background 0.15s; font-family: inherit; }
+    .custom-toggle.active { border-color: var(--lime); background: rgba(170,255,0,0.06); }
+    .toggle-check { width: 20px; height: 20px; border: 2px solid var(--stone); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; transition: all 0.15s; background: transparent; }
+    .toggle-check.on { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+    .toggle-price { font-family: var(--fd); font-size: 20px; letter-spacing: 1px; color: var(--slate); margin-left: auto; }
+    .toggle-price.active { color: var(--green); }
+
+    /* ── CUSTOMIZER ── */
+    .customizer { border: 2px solid var(--ink); border-radius: 14px; padding: 20px; background: rgba(12,26,13,0.02); }
+    .customizer-title { font-family: var(--fd); font-size: 22px; letter-spacing: 1.5px; margin-bottom: 16px; border-bottom: 1.5px dashed rgba(12,26,13,0.14); padding-bottom: 12px; }
+    .custom-step { margin-bottom: 16px; }
+    .custom-step:last-child { margin-bottom: 0; }
+    .step-label { font-family: var(--fm); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--slate); margin-bottom: 8px; }
+    .step-opts { display: flex; flex-direction: column; gap: 6px; }
+    .step-opts.row { flex-direction: row; flex-wrap: wrap; }
+    .step-opt { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border: 1.5px solid var(--stone); border-radius: 8px; background: transparent; cursor: pointer; text-align: left; transition: all 0.12s; font-family: inherit; gap: 8px; }
+    .step-opt:hover { border-color: var(--ink); }
+    .step-opt.on { border-color: var(--lime); background: rgba(170,255,0,0.07); }
+    .step-opt.size { flex-direction: column; align-items: center; justify-content: center; flex: 1; min-width: 60px; padding: 10px 6px; text-align: center; }
+    .opt-name { font-family: var(--fb); font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+    .opt-sub { font-family: var(--fm); font-size: 10px; color: var(--slate); letter-spacing: 0.3px; }
+    .opt-delta { font-family: var(--fm); font-size: 11px; color: var(--green); margin-left: auto; flex-shrink: 0; }
+
+    /* ── PRICE SUMMARY ── */
+    .price-summary { border: 2px solid var(--stone); border-radius: 12px; padding: 18px; }
+    .price-row { display: flex; justify-content: space-between; font-family: var(--fm); font-size: 12px; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px dotted var(--stone); color: var(--slate); }
+    .price-total { display: flex; justify-content: space-between; font-family: var(--fd); font-size: 28px; letter-spacing: 1px; margin-top: 4px; }
+    .price-mo { font-family: var(--fm); font-size: 11px; color: var(--slate); margin-top: 6px; }
+    .price-mo strong { color: var(--green); font-family: var(--fd); font-size: 18px; letter-spacing: 1px; }
+
+    /* ── CART ── */
+    .cart-page { display: grid; grid-template-columns: 1fr 340px; min-height: calc(100vh - 64px); }
+    .cart-main { border-right: 2px solid var(--stone); }
+    .cart-header { padding: 28px 32px; border-bottom: 2px solid var(--stone); display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px; position: sticky; top: 64px; background: var(--bg); z-index: 2; }
+    .cart-title { font-family: var(--fd); font-size: 36px; letter-spacing: 1px; margin-top: 4px; }
+    .cart-line { padding: 24px 32px; border-bottom: 2px solid var(--stone); display: grid; grid-template-columns: 100px 1fr auto; gap: 20px; align-items: flex-start; }
+    .cart-line-photo { height: 72px; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--stone); }
+    .cart-line-photo img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
+    .cart-line-name { font-family: var(--fb); font-size: 18px; font-weight: 700; margin-top: 4px; }
+    .cart-line-opts { letter-spacing: 0.5px; }
+    .cart-line-price { font-family: var(--fd); font-size: 26px; letter-spacing: 1px; text-align: right; }
+    .cart-line-right { text-align: right; }
+    .qty-stepper { display: inline-flex; border: 1.5px solid var(--stone); border-radius: 6px; overflow: hidden; margin-top: 10px; font-family: var(--fm); font-size: 12px; }
+    .qty-stepper button { background: none; border: none; padding: 5px 12px; cursor: pointer; color: var(--slate); border-right: 1.5px solid var(--stone); }
+    .qty-stepper button:last-child { border-right: none; border-left: 1.5px solid var(--stone); }
+    .qty-stepper span { padding: 5px 14px; }
+    .remove-btn { display: block; margin-top: 8px; font-family: var(--fm); font-size: 10px; letter-spacing: 0.6px; text-transform: uppercase; background: none; border: none; cursor: pointer; color: var(--slate); width: 100%; text-align: right; }
+    .remove-btn:hover { color: #c62828; }
+    .keep-shopping { display: block; padding: 18px 32px; font-family: var(--fm); font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase; background: none; border: none; cursor: pointer; color: var(--slate); text-align: left; }
+    .keep-shopping:hover { color: var(--ink); }
+
+    .cart-summary { padding: 28px 24px; display: flex; flex-direction: column; gap: 0; position: sticky; top: 64px; align-self: flex-start; }
+    .summary-title { font-family: var(--fd); font-size: 30px; letter-spacing: 1px; margin: 4px 0 20px; }
+    .sum-rows { display: flex; flex-direction: column; gap: 0; font-family: var(--fm); font-size: 12px; margin-bottom: 16px; }
+    .sum-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dotted var(--stone); color: var(--slate); }
+    .sum-row span:last-child { color: var(--ink); }
+    .sum-row.highlight span:last-child { color: var(--green); }
+    .sum-total-box { border: 2px solid var(--lime); border-radius: 10px; padding: 14px 16px; background: rgba(170,255,0,0.05); margin-bottom: 14px; }
+    .sum-total-row { display: flex; justify-content: space-between; align-items: baseline; }
+    .sum-total-row span:first-child { font-family: var(--fb); font-weight: 700; font-size: 14px; letter-spacing: 0.5px; }
+    .sum-total-amt { font-family: var(--fd); font-size: 32px; letter-spacing: 1px; }
+    .sum-cents { font-size: 16px; color: var(--slate); }
+    .checkout-btn { width: 100%; justify-content: center; }
+    .pickup-btn { width: 100%; justify-content: center; margin-top: 10px; }
+    .cart-guarantee { font-family: var(--fm); font-size: 10px; letter-spacing: 0.4px; color: var(--slate); line-height: 1.6; margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--stone); }
+
+    .cart-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 80px 32px; text-align: center; min-height: calc(100vh - 140px); }
+    .cart-empty-title { font-family: var(--fd); font-size: 40px; letter-spacing: 2px; }
+    .cart-empty p { font-size: 15px; color: var(--slate); max-width: 360px; line-height: 1.6; }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--pine); padding: 40px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+    .footer-logo { font-family: var(--fd); font-size: 26px; letter-spacing: 2px; color: #f0f0ec; }
     .footer-logo span { color: var(--lime); }
     .footer-owners { text-align: center; }
-    .footer-owners p { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: rgba(240,240,236,0.35); margin-bottom: 6px; }
-    .footer-owners .names { font-family: var(--font-bold); font-size: 15px; font-weight: 700; letter-spacing: 0.5px; color: rgba(240,240,236,0.85); }
-    .footer-loc { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: rgba(240,240,236,0.35); text-align: right; }
-    .footer-loc strong { display: block; font-family: var(--font-body); font-size: 14px; font-weight: 600; color: rgba(240,240,236,0.6); margin-top: 4px; }
+    .footer-owners p { font-family: var(--fm); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: rgba(240,240,236,0.35); margin-bottom: 6px; }
+    .footer-owners .names { font-family: var(--fb); font-size: 15px; font-weight: 700; color: rgba(240,240,236,0.85); }
+    .footer-loc { font-family: var(--fm); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: rgba(240,240,236,0.35); text-align: right; }
+    .footer-loc strong { display: block; font-family: var(--fs); font-size: 14px; font-weight: 600; color: rgba(240,240,236,0.6); margin-top: 4px; }
 
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
       .bikes-grid { grid-template-columns: 1fr 1fr; }
       .hero { grid-template-columns: 1fr; gap: 24px; }
+      .detail-grid { grid-template-columns: 1fr; }
+      .detail-right { position: static; }
+      .cart-page { grid-template-columns: 1fr; }
+      .cart-summary { position: static; border-top: 2px solid var(--stone); }
     }
     @media (max-width: 580px) {
       .bikes-grid { grid-template-columns: 1fr; }
-      nav, .hero, .bikes, .contact { padding-left: 20px; padding-right: 20px; }
-      footer { flex-direction: column; align-items: flex-start; }
+      .nav, .hero, .bikes-section, .detail-page { padding-left: 20px; padding-right: 20px; }
+      .footer { flex-direction: column; align-items: flex-start; }
       .footer-owners, .footer-loc { text-align: left; }
+      .cart-header, .cart-line, .keep-shopping { padding-left: 20px; padding-right: 20px; }
     }
   </style>
 </head>
 <body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+  const { useState } = React;
 
-  <nav>
-    <a href="#" class="nav-logo">LOOSELINE<span>/</span>MTB</a>
-    <div class="nav-owners"><strong>Matija Ercegovac</strong> &amp; <strong>Tian Delija</strong></div>
-  </nav>
+  /* ─── DATA ────────────────────────────────────────────────────────────── */
 
-  <section class="hero">
-    <div class="hero-headline">Best<br>MTB<br><span>Bikes</span><br>Ever!</div>
-    <div class="hero-right">
-      <p class="hero-sub">Three hand-picked machines, shop-ready and waiting. Each one built to rip — whether you're on loam, hardpack, or something steeper.</p>
-      <div class="hero-badges">
-        <span class="badge green">3 Bikes Available</span>
-        <span class="badge lime">Chehalis, WA</span>
-        <span class="badge">Shop-Built</span>
+  const BIKES = [
+    {
+      id: 'black', label: 'Black Frame',
+      img: 'images/bike-black.jpg', bg: '#f2f2f0',
+      price: 2750, negotiable: false, customization: 'free', customCost: 0,
+      tags: [{ label: 'Firm Price', cls: 'firm' }, { label: 'Free Custom', cls: 'custom-tag' }],
+      detail: 'Black frame · No negotiation · Customization included free',
+      ovNeg: 'No — firm price', ovNegCls: 'no',
+      ovCustom: 'Free',         ovCustomCls: 'free',
+    },
+    {
+      id: 'red', label: 'Red Frame',
+      img: 'images/bike-red.jpg', bg: '#f5f1f0',
+      price: 2550, negotiable: true, customization: 'paid', customCost: 500,
+      tags: [{ label: 'Negotiable', cls: 'neg' }, { label: 'Custom +$500', cls: 'custom-tag' }],
+      detail: 'Red frame · Open to offers · Customization available for +$500',
+      ovNeg: 'Yes',    ovNegCls: 'yes',
+      ovCustom: '+$500', ovCustomCls: 'yes',
+    },
+    {
+      id: 'gray', label: 'Gray Frame',
+      img: 'images/bike-gray.jpg', bg: '#f0f1ee',
+      price: 2100, negotiable: true, customization: 'none', customCost: 0,
+      tags: [{ label: 'Negotiable', cls: 'neg' }, { label: 'No Customization', cls: 'nocust' }],
+      detail: 'Gray frame · As-is · Price open to offers',
+      ovNeg: 'Yes',             ovNegCls: 'yes',
+      ovCustom: 'Not Available', ovCustomCls: 'no',
+    },
+  ];
+
+  const STEPS = [
+    {
+      id: 'size', label: 'Frame Size', row: true,
+      opts: [
+        { k: 'S',  sub: '445mm', d: 0 },
+        { k: 'M',  sub: '465mm', d: 0 },
+        { k: 'L',  sub: '485mm', d: 0, def: true },
+        { k: 'XL', sub: '505mm', d: 0 },
+      ],
+    },
+    {
+      id: 'drivetrain', label: 'Drivetrain',
+      opts: [
+        { k: 'Stock Build',       sub: 'As photographed',         d: 0,   def: true },
+        { k: 'Shimano XT M8100',  sub: 'Mechanical · 12sp',       d: 0   },
+        { k: 'SRAM X0 T-Type',    sub: 'Wireless · 12sp upgrade',  d: 400 },
+      ],
+    },
+    {
+      id: 'wheels', label: 'Wheels',
+      opts: [
+        { k: 'Stock Wheels',      sub: 'As photographed',         d: 0,   def: true },
+        { k: 'DT Swiss XM 1700',  sub: 'Alloy · 30mm internal',   d: 180 },
+        { k: 'Reserve 30 HD',     sub: 'Carbon · DT 350 hub',     d: 580 },
+      ],
+    },
+    {
+      id: 'personalize', label: 'Personalization',
+      opts: [
+        { k: 'None',         sub: 'Skip',                d: 0,  def: true },
+        { k: 'Rider Name',   sub: 'Top tube · 16ch max', d: 80 },
+        { k: 'Coordinates',  sub: 'Top tube · lat/long', d: 80 },
+      ],
+    },
+  ];
+
+  const DEFAULT_OPTS = Object.fromEntries(
+    STEPS.map(s => [s.id, s.opts.find(o => o.def)?.k || s.opts[0].k])
+  );
+
+  /* ─── HELPERS ─────────────────────────────────────────────────────────── */
+
+  const fmt = n => '$' + n.toLocaleString();
+  const monthly = n => Math.ceil(n / 12);
+
+  /* ─── SHARED ──────────────────────────────────────────────────────────── */
+
+  function Nav({ cartCount, onCartClick, onHomeClick }) {
+    return (
+      <nav className="nav">
+        <button className="nav-logo" onClick={onHomeClick}>LOOSELINE<span>/</span>MTB</button>
+        <div className="nav-owners"><strong>Matija Ercegovac</strong> &amp; <strong>Tian Delija</strong></div>
+        <button className="nav-cart" onClick={onCartClick}>
+          CART {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+        </button>
+      </nav>
+    );
+  }
+
+  function BikePhoto({ bike, size }) {
+    const [err, setErr] = useState(false);
+    return (
+      <div className={`bike-photo-wrap${size === 'large' ? ' large' : ''}`} style={{ background: bike.bg }}>
+        {!err
+          ? <img src={bike.img} alt={bike.label} onError={() => setErr(true)} />
+          : <div className="photo-placeholder">{bike.label}</div>
+        }
       </div>
-    </div>
-  </section>
+    );
+  }
 
-  <div class="owners-strip">
-    <p>Brought to you by <span>Matija Ercegovac</span> &amp; <span>Tian Delija</span></p>
-  </div>
+  /* ─── HOME ────────────────────────────────────────────────────────────── */
 
-  <section class="bikes">
-    <div class="section-label">Current Inventory</div>
-    <h2 class="section-title">Pick Your Machine</h2>
-    <div class="bikes-grid">
-
-      <!-- GRAY -->
-      <div class="bike-card">
-        <div class="bike-photo gray">
-          <img src="images/bike-gray.jpg" alt="Gray frame MTB" onerror="this.parentNode.innerHTML='<div class=\'bike-photo-placeholder\'>Gray Frame</div>'" />
-        </div>
-        <div class="bike-body">
-          <div class="bike-tags">
-            <span class="bike-tag neg">Negotiable</span>
-            <span class="bike-tag nocust">No Customization</span>
+  function HomeScreen({ onBikeClick }) {
+    return (
+      <div>
+        <section className="hero">
+          <div className="hero-headline">Best<br/>MTB<br/><span>Bikes</span><br/>Ever!</div>
+          <div className="hero-right">
+            <p className="hero-sub">Three hand-picked machines, shop-ready and waiting. Each one built to rip — whether you're on loam, hardpack, or something steeper.</p>
+            <div className="hero-badges">
+              <span className="badge green">3 Bikes Available</span>
+              <span className="badge lime">Chehalis, WA</span>
+              <span className="badge">Shop-Built</span>
+            </div>
           </div>
-          <div class="bike-price">$2,100</div>
-          <div class="bike-detail">Gray frame · As-is · Price open to offers</div>
+        </section>
+
+        <div className="owners-strip">
+          <p>Brought to you by <span>Matija Ercegovac</span> &amp; <span>Tian Delija</span></p>
         </div>
-        <div class="bike-overlay">
-          <div class="ov-label">Asking Price</div>
-          <div class="ov-price">$2,100</div>
-          <div class="ov-rows">
-            <div class="ov-row"><span class="ov-key">Negotiable</span><span class="ov-val yes">Yes</span></div>
-            <div class="ov-row"><span class="ov-key">Customization</span><span class="ov-val no">Not Available</span></div>
+
+        <section className="bikes-section">
+          <div className="section-label">Current Inventory</div>
+          <h2 className="section-title">Pick Your Machine</h2>
+          <div className="bikes-grid">
+            {BIKES.map(bike => <BikeCard key={bike.id} bike={bike} onClick={() => onBikeClick(bike)} />)}
+          </div>
+        </section>
+
+        <section className="contact-section">
+          <h2>Interested? Let's Talk.</h2>
+          <p>Reach out to Matija or Tian directly — we'll get back to you fast. No bots, no forms, just real people who love bikes.</p>
+          <a href="mailto:contact@looseline.mtb" className="btn">Get in Touch →</a>
+        </section>
+      </div>
+    );
+  }
+
+  function BikeCard({ bike, onClick }) {
+    return (
+      <div className="bike-card" onClick={onClick}>
+        <BikePhoto bike={bike} />
+        <div className="bike-body">
+          <div className="bike-tags">
+            {bike.tags.map(t => <span key={t.label} className={`bike-tag ${t.cls}`}>{t.label}</span>)}
+          </div>
+          <div className="bike-price">{fmt(bike.price)}</div>
+          <div className="bike-detail">{bike.detail}</div>
+        </div>
+        <div className="bike-overlay">
+          <div className="ov-label">Asking Price</div>
+          <div className="ov-price">{fmt(bike.price)}</div>
+          <div className="ov-rows">
+            <div className="ov-row">
+              <span className="ov-key">Negotiable</span>
+              <span className={`ov-val ${bike.ovNegCls}`}>{bike.ovNeg}</span>
+            </div>
+            <div className="ov-row">
+              <span className="ov-key">Customization</span>
+              <span className={`ov-val ${bike.ovCustomCls}`}>{bike.ovCustom}</span>
+            </div>
+          </div>
+          <div className="ov-cta">↳ Click to configure</div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ─── BIKE DETAIL ─────────────────────────────────────────────────────── */
+
+  function BikeScreen({ bike, onBack, onAddToCart }) {
+    const canCustomize = bike.customization !== 'none';
+    const [opts, setOpts] = useState(DEFAULT_OPTS);
+    const [wantCustom, setWantCustom] = useState(bike.customization === 'free');
+    const [added, setAdded] = useState(false);
+
+    const optDelta = (canCustomize && wantCustom)
+      ? STEPS.reduce((sum, s) => sum + (s.opts.find(o => o.k === opts[s.id])?.d || 0), 0)
+      : 0;
+    const surcharge = (bike.customization === 'paid' && wantCustom) ? bike.customCost : 0;
+    const total = bike.price + surcharge + optDelta;
+    const mo = monthly(total);
+
+    const setPick = (sid, k) => setOpts(p => ({ ...p, [sid]: k }));
+
+    const handleAdd = () => {
+      onAddToCart({
+        id: Date.now(),
+        bikeId: bike.id, label: bike.label,
+        img: bike.img, bg: bike.bg,
+        customized: canCustomize && wantCustom,
+        opts: { ...opts },
+        total, qty: 1,
+      });
+      setAdded(true);
+      setTimeout(() => setAdded(false), 2000);
+    };
+
+    return (
+      <div className="detail-page">
+        <button className="back-btn" onClick={onBack}>← Back to All Bikes</button>
+        <div className="detail-grid">
+
+          {/* LEFT */}
+          <div className="detail-left">
+            <BikePhoto bike={bike} size="large" />
+            <div className="detail-tags">
+              {bike.tags.map(t => <span key={t.label} className={`bike-tag ${t.cls}`}>{t.label}</span>)}
+            </div>
+            {bike.negotiable && (
+              <div className="negotiate-box">
+                <div className="neg-label">Price Is Negotiable</div>
+                <p className="neg-body">Make an offer — Matija and Tian are reasonable people. Reach out and they'll get back to you fast.</p>
+                <a href={`mailto:contact@looseline.mtb?subject=Offer on ${bike.label}`} className="btn btn-sm">Send an Offer →</a>
+              </div>
+            )}
+          </div>
+
+          {/* RIGHT */}
+          <div className="detail-right">
+            <div className="detail-header">
+              <div className="mono-label">{bike.label.toUpperCase()}</div>
+              <div className="detail-price-main">{fmt(bike.price)}</div>
+              <div className="mono-label">
+                or from&nbsp;
+                <strong style={{ color: 'var(--lime)', fontFamily: 'var(--fd)', fontSize: 20, letterSpacing: 1 }}>{fmt(mo)}/mo</strong>
+                &nbsp;· 12 months · 0% APR
+              </div>
+            </div>
+
+            {bike.customization === 'paid' && (
+              <button className={`custom-toggle${wantCustom ? ' active' : ''}`} onClick={() => setWantCustom(w => !w)}>
+                <span className={`toggle-check${wantCustom ? ' on' : ''}`}>{wantCustom ? '✓' : ''}</span>
+                <div>
+                  <div style={{ fontFamily: 'var(--fb)', fontSize: 14, fontWeight: 700, letterSpacing: '0.5px' }}>ADD CUSTOMIZATION</div>
+                  <div style={{ fontSize: 12, color: 'var(--slate)', marginTop: 2 }}>Unlock options below · +$500 bundle fee</div>
+                </div>
+                <span className={`toggle-price${wantCustom ? ' active' : ''}`}>+$500</span>
+              </button>
+            )}
+
+            {canCustomize && wantCustom && (
+              <div className="customizer">
+                <div className="customizer-title">Configure Your Build</div>
+                {STEPS.map(step => (
+                  <div key={step.id} className="custom-step">
+                    <div className="step-label">{step.label}</div>
+                    <div className={`step-opts${step.row ? ' row' : ''}`}>
+                      {step.opts.map(o => {
+                        const on = opts[step.id] === o.k;
+                        return (
+                          <button
+                            key={o.k}
+                            className={`step-opt${on ? ' on' : ''}${step.row ? ' size' : ''}`}
+                            onClick={() => setPick(step.id, o.k)}
+                          >
+                            <span className="opt-name">{o.k}</span>
+                            {!step.row && <span className="opt-sub">{o.sub}</span>}
+                            {step.row && <span className="opt-sub">{o.sub}</span>}
+                            {o.d !== 0 && <span className="opt-delta">+${o.d}</span>}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {!canCustomize && (
+              <div style={{ padding: '14px 16px', border: '1.5px dashed var(--stone)', borderRadius: 10, fontFamily: 'var(--fm)', fontSize: 11, color: 'var(--slate)', letterSpacing: '0.5px' }}>
+                SOLD AS-IS · NO CUSTOMIZATION AVAILABLE FOR THIS BUILD
+              </div>
+            )}
+
+            <div className="price-summary">
+              <div className="price-row"><span>Base price</span><span>{fmt(bike.price)}</span></div>
+              {surcharge > 0 && <div className="price-row"><span>Customization bundle</span><span>+{fmt(surcharge)}</span></div>}
+              {optDelta > 0 && <div className="price-row"><span>Upgrades</span><span>+{fmt(optDelta)}</span></div>}
+              <div className="price-total"><span>Total</span><span>{fmt(total)}</span></div>
+              <div className="price-mo">or <strong>{fmt(mo)}/mo</strong> · 12 months · 0% APR</div>
+            </div>
+
+            <button className={`btn add-cart-btn${added ? ' added' : ''}`} onClick={handleAdd}>
+              {added ? 'Added to Cart ✓' : 'Add to Cart →'}
+            </button>
           </div>
         </div>
       </div>
+    );
+  }
 
-      <!-- BLACK -->
-      <div class="bike-card">
-        <div class="bike-photo black">
-          <img src="images/bike-black.jpg" alt="Black frame MTB" onerror="this.parentNode.innerHTML='<div class=\'bike-photo-placeholder\'>Black Frame</div>'" />
+  /* ─── CART ────────────────────────────────────────────────────────────── */
+
+  function CartScreen({ items, onUpdateQty, onRemove, onBack }) {
+    const subtotal = items.reduce((s, it) => s + it.total * it.qty, 0);
+    const shipping = items.length > 0 ? 84 : 0;
+    const tax = Math.round(subtotal * 0.0825);
+    const grand = subtotal + shipping + tax;
+
+    if (items.length === 0) {
+      return (
+        <div className="cart-empty">
+          <div className="mono-label">CART · EMPTY</div>
+          <div className="cart-empty-title">No Builds Queued.</div>
+          <p>Pick a bike from the catalog, spec it out, and add it to cart.</p>
+          <button className="btn" onClick={onBack}>← Browse Bikes</button>
         </div>
-        <div class="bike-body">
-          <div class="bike-tags">
-            <span class="bike-tag firm">Firm Price</span>
-            <span class="bike-tag custom">Free Custom</span>
+      );
+    }
+
+    return (
+      <div className="cart-page">
+        <div className="cart-main">
+          <div className="cart-header">
+            <div>
+              <div className="mono-label">CART · TRANSMISSION</div>
+              <div className="cart-title">{items.length} {items.length === 1 ? 'build' : 'builds'} queued</div>
+            </div>
+            <div className="mono-label">EST. SHIP · 14 BUSINESS DAYS</div>
           </div>
-          <div class="bike-price">$2,750</div>
-          <div class="bike-detail">Black frame · No negotiation · Customization included free</div>
+          {items.map(it => (
+            <CartLine key={it.id} item={it}
+              onQty={q => onUpdateQty(it.id, q)}
+              onRemove={() => onRemove(it.id)}
+            />
+          ))}
+          <button className="keep-shopping" onClick={onBack}>← Keep Shopping</button>
         </div>
-        <div class="bike-overlay">
-          <div class="ov-label">Asking Price</div>
-          <div class="ov-price">$2,750</div>
-          <div class="ov-rows">
-            <div class="ov-row"><span class="ov-key">Negotiable</span><span class="ov-val no">No — firm price</span></div>
-            <div class="ov-row"><span class="ov-key">Customization</span><span class="ov-val free">Free</span></div>
+
+        <div className="cart-summary">
+          <div className="mono-label">SUMMARY</div>
+          <div className="summary-title">Checkout</div>
+          <div className="sum-rows">
+            <div className="sum-row"><span>Subtotal</span><span>{fmt(subtotal)}.00</span></div>
+            <div className="sum-row"><span>Shop-build &amp; tune</span><span>INCLUDED</span></div>
+            <div className="sum-row"><span>Shipping · WA</span><span>${shipping}.00</span></div>
+            <div className="sum-row"><span>Sales tax · est.</span><span>${tax}.00</span></div>
           </div>
+          <div className="sum-total-box">
+            <div className="sum-total-row">
+              <span>TOTAL</span>
+              <span className="sum-total-amt">{fmt(grand)}<span className="sum-cents">.00</span></span>
+            </div>
+            <div className="mono-label" style={{ marginTop: 6, color: 'var(--slate)' }}>
+              OR {fmt(monthly(grand))}/MO · 12 MO · 0% APR
+            </div>
+          </div>
+          <button className="btn checkout-btn">CHECKOUT →</button>
+          <button className="btn btn-outline pickup-btn">RESERVE FOR STORE PICKUP</button>
+          <p className="cart-guarantee">30-DAY RIDE GUARANTEE. FULL SHOP PRE-FLIGHT BEFORE EVERY SHIPMENT. FREE FLAT REPAIR FOR LIFE ON ANY LOOSELINE BUILD.</p>
         </div>
       </div>
+    );
+  }
 
-      <!-- RED -->
-      <div class="bike-card">
-        <div class="bike-photo red">
-          <img src="images/bike-red.jpg" alt="Red frame MTB" onerror="this.parentNode.innerHTML='<div class=\'bike-photo-placeholder\'>Red Frame</div>'" />
+  function CartLine({ item, onQty, onRemove }) {
+    const [err, setErr] = useState(false);
+    return (
+      <div className="cart-line">
+        <div className="cart-line-photo" style={{ background: item.bg }}>
+          {!err
+            ? <img src={item.img} alt={item.label} onError={() => setErr(true)} />
+            : <div className="photo-placeholder" style={{ fontSize: 10 }}>{item.label}</div>
+          }
         </div>
-        <div class="bike-body">
-          <div class="bike-tags">
-            <span class="bike-tag neg">Negotiable</span>
-            <span class="bike-tag custom">Custom +$500</span>
+        <div>
+          <div className="mono-label">
+            {item.bikeId.toUpperCase()} FRAME
+            {item.customized && <span style={{ color: 'var(--lime)', marginLeft: 8 }}>· CUSTOM BUILD</span>}
           </div>
-          <div class="bike-price">$2,550</div>
-          <div class="bike-detail">Red frame · Open to offers · Customization available for +$500</div>
+          <div className="cart-line-name">{item.label}</div>
+          {item.customized && (
+            <div className="mono-label cart-line-opts" style={{ marginTop: 6 }}>
+              {Object.entries(item.opts).map(([, v]) => v).join(' · ')}
+            </div>
+          )}
         </div>
-        <div class="bike-overlay">
-          <div class="ov-label">Asking Price</div>
-          <div class="ov-price">$2,550</div>
-          <div class="ov-rows">
-            <div class="ov-row"><span class="ov-key">Negotiable</span><span class="ov-val yes">Yes</span></div>
-            <div class="ov-row"><span class="ov-key">Customization</span><span class="ov-val yes">+ $500</span></div>
+        <div className="cart-line-right">
+          <div className="cart-line-price">{fmt(item.total * item.qty)}</div>
+          <div className="qty-stepper">
+            <button onClick={() => onQty(Math.max(0, item.qty - 1))}>−</button>
+            <span>{item.qty}</span>
+            <button onClick={() => onQty(item.qty + 1)}>+</button>
           </div>
+          <button className="remove-btn" onClick={onRemove}>REMOVE ×</button>
         </div>
       </div>
+    );
+  }
 
-    </div>
-  </section>
+  /* ─── APP ─────────────────────────────────────────────────────────────── */
 
-  <section class="contact">
-    <h2>Interested? Let's Talk.</h2>
-    <p>Reach out to Matija or Tian directly — we'll get back to you fast. No bots, no forms, just real people who love bikes.</p>
-    <a href="mailto:contact@looseline.mtb" class="btn">Get in Touch →</a>
-  </section>
+  function App() {
+    const [screen, setScreen] = useState('home');
+    const [bike, setBike] = useState(null);
+    const [cart, setCart] = useState([]);
 
-  <footer>
-    <div class="footer-logo">LOOSELINE<span>/</span>MTB</div>
-    <div class="footer-owners">
-      <p>Owners</p>
-      <div class="names">Matija Ercegovac &amp; Tian Delija</div>
-    </div>
-    <div class="footer-loc">Location<strong>Chehalis, WA</strong></div>
-  </footer>
+    const goBike = b => { setBike(b); setScreen('bike'); window.scrollTo(0, 0); };
+    const goHome = () => setScreen('home');
+    const goCart = () => setScreen('cart');
 
+    const addToCart = item => { setCart(c => [...c, item]); goCart(); window.scrollTo(0, 0); };
+    const updateQty = (id, qty) =>
+      qty === 0 ? setCart(c => c.filter(i => i.id !== id))
+                : setCart(c => c.map(i => i.id === id ? { ...i, qty } : i));
+    const removeItem = id => setCart(c => c.filter(i => i.id !== id));
+
+    const cartCount = cart.reduce((s, i) => s + i.qty, 0);
+
+    return (
+      <div>
+        <Nav cartCount={cartCount} onCartClick={goCart} onHomeClick={goHome} />
+        {screen === 'home' && <HomeScreen onBikeClick={goBike} />}
+        {screen === 'bike' && <BikeScreen bike={bike} onBack={goHome} onAddToCart={addToCart} />}
+        {screen === 'cart' && <CartScreen items={cart} onUpdateQty={updateQty} onRemove={removeItem} onBack={goHome} />}
+        <footer className="footer">
+          <div className="footer-logo">LOOSELINE<span>/</span>MTB</div>
+          <div className="footer-owners">
+            <p>Owners</p>
+            <div className="names">Matija Ercegovac &amp; Tian Delija</div>
+          </div>
+          <div className="footer-loc">Location<strong>Chehalis, WA</strong></div>
+        </footer>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
 </body>
 </html>
